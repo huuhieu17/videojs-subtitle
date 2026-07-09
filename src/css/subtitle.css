@@ -1,0 +1,284 @@
+.vjs-subtitle-plus {
+
+    position: absolute;
+
+    left: 50%;
+
+    bottom: 8%;
+
+    transform: translateX(-50%);
+
+    width: 90%;
+
+    pointer-events: none;
+
+    text-align: center;
+
+    z-index: 9999;
+
+    color: white;
+
+    font-size: 26px;
+
+    font-weight: 600;
+
+    text-shadow:
+        2px 2px 4px black;
+
+}
+
+.vjs-subtitle-plus.hidden{
+
+    display:none;
+
+}
+
+.vjs-subtitle-plus-editing {
+
+    cursor: move;
+
+    outline: 1px dashed rgba(255, 255, 255, 0.7);
+
+    pointer-events: auto;
+
+}
+
+.vjs-subtitle-line{
+
+    display:inline-block;
+
+    max-width:100%;
+
+    padding:4px 12px;
+
+    border-radius:6px;
+
+    text-align:center;
+
+    white-space:pre-wrap;
+
+    word-break:break-word;
+
+    box-sizing:border-box;
+
+}
+
+.vjs-subtitle-plus-button .vjs-icon-placeholder:before{
+
+    content:"CC";
+
+    font-weight:bold;
+
+}
+
+.vjs-subtitle-menu-heading {
+
+    font-weight: 700;
+
+    pointer-events: none;
+
+    opacity: 1;
+
+}
+
+.vjs-subtitle-menu-heading .vjs-menu-item-text {
+
+    font-size: 12px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.08em;
+
+}
+
+.vjs-subtitle-menu-divider {
+
+    height: 1px;
+
+    margin: 4px 12px;
+
+    padding: 0;
+
+    background: rgba(255, 255, 255, 0.2);
+
+    pointer-events: none;
+
+}
+
+.vjs-subtitle-menu-divider .vjs-menu-item-text {
+
+    display: none;
+
+}
+
+.vjs-subtitle-style-editor {
+
+    position: absolute;
+
+    right: 12px;
+
+    top: 12px;
+
+    width: 260px;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    background: rgba(20, 20, 20, 0.92);
+
+    color: #fff;
+
+    z-index: 10000;
+
+    box-sizing: border-box;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 13px;
+
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+
+}
+
+.vjs-subtitle-style-editor__header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 10px;
+
+    font-weight: 700;
+
+}
+
+.vjs-subtitle-style-editor__close {
+
+    width: 28px;
+
+    height: 28px;
+
+    border: 0;
+
+    border-radius: 4px;
+
+    background: rgba(255, 255, 255, 0.12);
+
+    color: #fff;
+
+    cursor: pointer;
+
+    font-size: 16px;
+
+    line-height: 1;
+
+}
+
+.vjs-subtitle-style-editor__row,
+.vjs-subtitle-style-editor__check {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    margin-top: 8px;
+
+}
+
+.vjs-subtitle-style-editor__row > span:first-child {
+
+    min-width: 78px;
+
+}
+
+.vjs-subtitle-style-editor input,
+.vjs-subtitle-style-editor select {
+
+    accent-color: #4da3ff;
+
+}
+
+.vjs-subtitle-style-editor input[type="color"] {
+
+    width: 44px;
+
+    height: 28px;
+
+    padding: 0;
+
+    border: 0;
+
+    background: transparent;
+
+}
+
+.vjs-subtitle-style-editor input[type="range"] {
+
+    width: 110px;
+
+}
+
+.vjs-subtitle-style-editor input[type="number"] {
+
+    width: 54px;
+
+    border: 1px solid rgba(255, 255, 255, 0.22);
+
+    border-radius: 4px;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    color: #fff;
+
+}
+
+.vjs-subtitle-style-editor input[type="text"] {
+
+    min-width: 112px;
+
+    width: 112px;
+
+    border: 1px solid rgba(255, 255, 255, 0.22);
+
+    border-radius: 4px;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    color: #fff;
+
+}
+
+.vjs-subtitle-style-editor select {
+
+    min-width: 112px;
+
+    border: 1px solid rgba(255, 255, 255, 0.22);
+
+    border-radius: 4px;
+
+    background: #222;
+
+    color: #fff;
+
+}
+
+.vjs-subtitle-style-editor__size {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+}
+
+.vjs-subtitle-menu-item .vjs-menu-item-text {
+ text-transform: capitalize;
+}

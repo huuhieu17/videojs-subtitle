@@ -1,0 +1,69 @@
+{
+  "name": "videojs-subtitle",
+  "version": "1.0.0",
+  "description": "Advanced subtitle plugin for Video.js",
+  "type": "module",
+  "license": "MIT",
+  "keywords": [
+    "video.js",
+    "videojs",
+    "subtitle",
+    "subtitles",
+    "caption",
+    "captions",
+    "srt",
+    "vtt"
+  ],
+  "authors": [
+    {
+      "name": "Hieu Nguyen",
+      "email": "huuhieu17@gmail.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/huuhieu17/videojs-subtitle.git"
+  },
+  "sideEffects": [
+    "./dist/videojs-subtitle.css",
+    "./dist/videojs-subtitle.js",
+    "./dist/videojs-subtitle.umd.cjs"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "./dist/videojs-subtitle.umd.cjs",
+  "module": "./dist/videojs-subtitle.js",
+  "types": "./dist/index.d.ts",
+  "style": "./dist/videojs-subtitle.css",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/videojs-subtitle.js",
+      "require": "./dist/videojs-subtitle.umd.cjs"
+    },
+    "./style.css": "./dist/videojs-subtitle.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "dev:demo": "vite --host 127.0.0.1",
+    "build:demo:v8": "vite build --config vite.demo.config.ts",
+    "preview:demo:v8": "vite preview --config vite.demo.config.ts --host 127.0.0.1",
+    "build": "tsc && vite build",
+    "clean": "rimraf dist",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "video.js": "^8.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.8.3",
+    "video.js": "^8.23.4",
+    "vite": "^7.0.0"
+  }
+}

@@ -1,7 +1,7 @@
 {
-  "name": "videojs-subtitle",
-  "version": "1.0.0",
-  "description": "Advanced subtitle plugin for Video.js",
+  "name": "@huuhieu17/videojs-subtitle",
+  "version": "1.0.0-html",
+  "description": "Advanced custom subtitle renderer for @videojs/html, Video.js 8, and HTML video players",
   "type": "module",
   "license": "MIT",
   "keywords": [
@@ -24,10 +24,15 @@
     "type": "git",
     "url": "git+https://github.com/huuhieu17/videojs-subtitle.git"
   },
+  "homepage": "https://github.com/huuhieu17/videojs-subtitle#readme",
+  "bugs": {
+    "url": "https://github.com/huuhieu17/videojs-subtitle/issues"
+  },
   "sideEffects": [
     "./dist/videojs-subtitle.css",
     "./dist/videojs-subtitle.js",
-    "./dist/videojs-subtitle.umd.cjs"
+    "./dist/videojs-subtitle.umd.cjs",
+    "./dist/html.js"
   ],
   "publishConfig": {
     "access": "public"
@@ -42,6 +47,10 @@
       "import": "./dist/videojs-subtitle.js",
       "require": "./dist/videojs-subtitle.umd.cjs"
     },
+    "./html": {
+      "types": "./dist/html.d.ts",
+      "import": "./dist/html.js"
+    },
     "./style.css": "./dist/videojs-subtitle.css"
   },
   "files": [
@@ -49,15 +58,24 @@
   ],
   "scripts": {
     "dev": "vite",
-    "dev:demo": "vite --host 127.0.0.1",
+    "dev:demo": "vite --host 127.0.0.1 --port 3000",
     "build:demo:v8": "vite build --config vite.demo.config.ts",
     "preview:demo:v8": "vite preview --config vite.demo.config.ts --host 127.0.0.1",
-    "build": "tsc && vite build",
+    "build": "vite build && vite build --config vite.html.config.ts && tsc --emitDeclarationOnly",
     "clean": "rimraf dist",
     "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
+    "@videojs/html": "*",
     "video.js": "^8.23.0"
+  },
+  "peerDependenciesMeta": {
+    "@videojs/html": {
+      "optional": true
+    },
+    "video.js": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@types/node": "^24.0.0",

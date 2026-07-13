@@ -1,9 +1,8 @@
-import Player from 'video.js/dist/types/player';
-
 import { SubtitleManager } from "../core/SubtitleManager";
 import { SubtitleEvents } from "../constants/events";
 
 import { ActiveCue } from "../types";
+import { SubtitlePlayerHost } from "../player/SubtitlePlayerHost";
 
 import { SubtitleLayer } from "./SubtitleLayer";
 import { SubtitleLine } from "./SubtitleLine";
@@ -12,7 +11,7 @@ import { SubtitleStyleManager } from "./SubtitleStyle";
 
 export class SubtitleRenderer {
 
-    private readonly player: Player;
+    private readonly player: SubtitlePlayerHost;
 
     private readonly manager: SubtitleManager;
 
@@ -40,7 +39,7 @@ export class SubtitleRenderer {
     private lastHash = "";
 
     constructor(
-        player: Player,
+        player: SubtitlePlayerHost,
         manager: SubtitleManager
     ) {
 

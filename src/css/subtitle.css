@@ -282,3 +282,176 @@
 .vjs-subtitle-menu-item .vjs-menu-item-text {
  text-transform: capitalize;
 }
+
+.vjs-subtitle-html-container {
+
+    position: relative;
+
+}
+
+.vjs-subtitle-html-controls {
+
+    position: absolute;
+
+    right: 12px;
+
+    bottom: 12px;
+
+    z-index: 10001;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    pointer-events: auto;
+
+}
+
+.vjs-subtitle-html-control {
+
+    position: relative;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    font-family: Arial, sans-serif;
+
+}
+
+.vjs-subtitle-html-button {
+
+    min-width: 36px;
+
+    height: 28px;
+
+    border: 0;
+
+    border-radius: 4px;
+
+    background: rgba(43, 51, 63, 0.9);
+
+    color: #fff;
+
+    cursor: pointer;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    line-height: 1;
+
+}
+
+.vjs-subtitle-html-button:hover,
+.vjs-subtitle-html-button[aria-expanded="true"] {
+
+    background: rgba(255, 255, 255, 0.22);
+
+}
+
+.vjs-subtitle-html-menu {
+
+    position: absolute;
+
+    right: 0;
+
+    bottom: calc(100% + 8px);
+
+    width: 220px;
+
+    max-height: min(320px, 70vh);
+
+    overflow: auto;
+
+    padding: 8px 0;
+
+    border-radius: 4px;
+
+    background: rgba(20, 20, 20, 0.96);
+
+    color: #fff;
+
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
+
+    text-align: left;
+
+}
+
+.vjs-subtitle-html-menu[hidden] {
+
+    display: none;
+
+}
+
+.vjs-subtitle-html-menu-heading,
+.vjs-subtitle-html-menu-empty {
+
+    padding: 7px 14px;
+
+    color: rgba(255, 255, 255, 0.72);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+}
+
+.vjs-subtitle-html-menu-empty {
+
+    font-weight: 400;
+
+    text-transform: none;
+
+}
+
+.vjs-subtitle-html-menu-item {
+
+    display: block;
+
+    width: 100%;
+
+    padding: 8px 14px;
+
+    border: 0;
+
+    background: transparent;
+
+    color: #fff;
+
+    cursor: pointer;
+
+    font: inherit;
+
+    font-size: 13px;
+
+    text-align: left;
+
+}
+
+.vjs-subtitle-html-menu-item:hover,
+.vjs-subtitle-html-menu-item.is-selected {
+
+    background: rgba(255, 255, 255, 0.16);
+
+}
+
+.vjs-subtitle-html-menu-item.is-selected::before {
+
+    content: "✓ ";
+
+}
+
+.vjs-subtitle-html-menu-divider {
+
+    height: 1px;
+
+    margin: 5px 12px;
+
+    background: rgba(255, 255, 255, 0.18);
+
+}

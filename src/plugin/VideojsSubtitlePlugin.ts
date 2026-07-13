@@ -42,7 +42,10 @@ export class VideojsSubtitlePlugin {
 
         this.renderer =
             new SubtitleRenderer(
-                player,
+                {
+                    el: () => player.el() as HTMLElement,
+                    currentTime: () => player.currentTime() || 0
+                },
                 this.manager
             );
 

@@ -1,39 +1,159 @@
-# videojs-subtitle
+# @huuhieu17/videojs-subtitle
 
-Advanced subtitle plugin for [Video.js](https://videojs.com/) with SRT/VTT loading, custom rendering, track switching, and an in-player subtitle style editor.
+Advanced custom subtitle renderer for `@videojs/html`, Video.js 8, and HTML media players.
+
+This package focuses on custom subtitle rendering instead of native browser text tracks. It supports SRT/VTT loading, track switching, an in-player CC menu, and a visual style editor with color picker, font selector, font size, background, opacity, and drag-to-position.
+
+## Support Matrix
+
+| Player target | Import path | Status |
+| --- | --- | --- |
+| `@videojs/html` / Video.js 10 beta | `@huuhieu17/videojs-subtitle/html` | Supported |
+| Video.js 8 classic | `@huuhieu17/videojs-subtitle` | Supported |
+| Vanilla HTML `<video>` | `@huuhieu17/videojs-subtitle/html` | Supported through the HTML adapter |
+| React / Vue wrappers | `@huuhieu17/videojs-subtitle/html` | Planned docs and helpers |
 
 ## Features
 
-- Load subtitles from URL, File, or raw string.
+- Load subtitles from URL, browser `File`, or raw string.
 - Supports `.srt` and `.vtt`.
-- Custom subtitle overlay renderer.
-- Video.js control-bar CC menu.
-- Track enable, disable, switch, remove, and clear APIs.
-- In-player style editor with color picker, font selector, font size, position, background, opacity, and drag-to-position.
-- TypeScript types included.
+- Custom overlay renderer.
+- CC menu for track switching, import, hide/show, and style editor.
+- Style editor with color picker, font family, font size, position, background, opacity, and drag-to-position.
+- Shared API for v10 HTML adapter and Video.js 8 plugin.
+- TypeScript declarations included.
 
 ## Install
 
 ```bash
-npm install videojs-subtitle
+npm install @huuhieu17/videojs-subtitle
 ```
-
-or:
 
 ```bash
-yarn add videojs-subtitle
+yarn add @huuhieu17/videojs-subtitle
 ```
 
-## Usage
+Import the stylesheet once:
 
-Import Video.js, Video.js styles, and the plugin:
+```ts
+import "@huuhieu17/videojs-subtitle/style.css";
+```
+
+## Quick Start: `@videojs/html` / Video.js 10 Beta
+
+Use the HTML adapter. Video.js 10 beta does not use the classic Video.js 8 `registerPlugin` / `registerComponent` API.
+
+```ts
+import { createHtmlSubtitle } from "@huuhieu17/videojs-subtitle/html";
+import "@huuhieu17/videojs-subtitle/style.css";
+
+const container = document.querySelector("media-container") as HTMLElement;
+const video = container.querySelector("video") as HTMLVideoElement;
+const controlBar = container.querySelector("media-controls") as HTMLElement;
+
+const subtitles = createHtmlSubtitle(container, {
+  container,
+  video,
+  controlBar,
+  style: {
+    color: "#ffffff",
+    fontSize: 28,
+    fontFamily: "Arial",
+    background: "rgba(0, 0, 0, 0.55)",
+    position: "bottom",
+    bottom: 76
+  }
+});
+
+await subtitles.loadFromUrl("/subtitles/movie.srt", {
+  id: "en",
+  label: "English",
+  language: "en",
+  type: "srt"
+});
+
+subtitles.switch("en");
+```
+
+Example `@videojs/html` markup:
+
+```html
+<script type="module" src="https://cdn.jsdelivr.net/npm/@videojs/html/cdn/video-ui.js"></script>
+
+<video-player>
+  <media-container class="media-default-skin media-default-skin--video">
+    <video src="/movie.mp4" playsinline></video>
+
+    <media-controls class="media-surface media-controls">
+      <!-- your @videojs/html controls -->
+    </media-controls>
+  </media-container>
+</video-player>
+```
+
+### HTML Adapter Options
+
+```ts
+createHtmlSubtitle(container, {
+  container: "media-container",
+  video: "video",
+  controlBar: "media-controls",
+  button: true,
+  style: {
+    fontSize: 28
+  }
+});
+```
+
+- `container`: element or selector where the subtitle overlay is mounted. For `@videojs/html`, `media-container` is usually the best target.
+- `video`: native `video` or `audio` element used for `timeupdate` and `currentTime`.
+- `controlBar`: element or selector where the CC button is inserted. For the CDN HTML skin, this is usually `media-controls`.
+- `button`: set to `false` if you want to use your own button.
+- `style`: initial subtitle style.
+
+If no matching `controlBar` is found, the adapter creates a fallback CC control inside the subtitle container.
+
+### Vanilla HTML Video
+
+The same HTML adapter can be used without `@videojs/html`:
+
+```html
+<div class="player-shell">
+  <video id="movie" src="/movie.mp4" controls></video>
+</div>
+```
+
+```ts
+import { createHtmlSubtitle } from "@huuhieu17/videojs-subtitle/html";
+import "@huuhieu17/videojs-subtitle/style.css";
+
+const shell = document.querySelector(".player-shell") as HTMLElement;
+const video = document.querySelector("#movie") as HTMLVideoElement;
+
+const subtitles = createHtmlSubtitle(video, {
+  container: shell,
+  video
+});
+
+await subtitles.loadFromString(srtText, {
+  id: "inline",
+  label: "Inline SRT",
+  type: "srt"
+});
+
+subtitles.switch("inline");
+```
+
+## Video.js 8 Classic
+
+Use the root package import for Video.js 8.
 
 ```ts
 import videojs from "video.js";
 import "video.js/dist/video-js.css";
 
-import "videojs-subtitle";
-import "videojs-subtitle/style.css";
+import "@huuhieu17/videojs-subtitle";
+import "@huuhieu17/videojs-subtitle/style.css";
 
 const player = videojs("player");
 
@@ -58,8 +178,6 @@ await subtitles.loadFromUrl("/subtitles/movie.srt", {
 subtitles.switch("en");
 ```
 
-HTML:
-
 ```html
 <video
   id="player"
@@ -68,45 +186,23 @@ HTML:
   preload="auto"
   width="900"
 >
-  <source src="/video.mp4" type="video/mp4" />
+  <source src="/movie.mp4" type="video/mp4" />
 </video>
 ```
 
-## Style Editor
+For classic browser scripts, load the UMD build:
 
-Open the Video.js CC menu and choose `Style...`.
-
-The editor supports:
-
-- Text color
-- Font family, including custom font names
-- Font size
-- Top, center, and bottom positioning
-- Background color
-- Transparent background
-- Opacity
-- Dragging the subtitle overlay to adjust vertical position
-
-Custom font names work when the page has already loaded the font through CSS, for example from a local stylesheet or a web font provider.
-
-## API
-
-### `player.subtitlePlus(options?)`
-
-Creates or returns the plugin instance for a Video.js player.
-
-```ts
-const subtitles = player.subtitlePlus({
-  style: {
-    fontSize: 30,
-    color: "#ffffff"
-  }
-});
+```html
+<link rel="stylesheet" href="./dist/videojs-subtitle.css" />
+<script src="https://vjs.zencdn.net/8/video.min.js"></script>
+<script src="./dist/videojs-subtitle.umd.cjs"></script>
 ```
 
-### `loadFromUrl(url, options?)`
+## Shared API
 
-Loads a subtitle file from a URL and adds it as a track.
+Both `createHtmlSubtitle(...)` and `player.subtitlePlus(...)` return a subtitle instance with the same core methods.
+
+### Load Subtitles
 
 ```ts
 await subtitles.loadFromUrl("/subs/en.srt", {
@@ -115,24 +211,12 @@ await subtitles.loadFromUrl("/subs/en.srt", {
   language: "en",
   type: "srt"
 });
-```
 
-### `loadFromFile(file, options?)`
-
-Loads a subtitle from a browser `File`.
-
-```ts
 await subtitles.loadFromFile(file, {
   id: "local",
   label: file.name
 });
-```
 
-### `loadFromString(content, options?)`
-
-Loads subtitles from a raw string.
-
-```ts
 await subtitles.loadFromString(srtText, {
   id: "inline",
   label: "Inline SRT",
@@ -178,6 +262,8 @@ const style = subtitles.getStyle();
 subtitles.openStyleEditor();
 ```
 
+Custom font names work when the page has already loaded the font through CSS.
+
 ## Types
 
 ```ts
@@ -197,30 +283,64 @@ interface SubtitleCue {
 }
 ```
 
-## Development
+## Framework Roadmap
+
+The current package is framework-agnostic. React and Vue can already use the HTML adapter by creating the subtitle instance after the player DOM is mounted.
+
+Planned docs/helpers:
+
+- `useSubtitlePlus` example for React.
+- Vue composable example.
+- Vanilla JS no-build CDN example.
+- Dedicated framework wrapper packages only if the core API becomes too noisy for framework users.
+
+## Local Demo
 
 ```bash
 npm install
-npm run dev
 npm run build
+npm run dev:demo
 ```
 
-The demo runs with Vite at:
+Open:
 
 ```text
-http://127.0.0.1:3000/
+http://127.0.0.1:3000/demo/index.html
+```
+
+The current demo targets `@videojs/html` / Video.js 10 beta. It loads `../dist/html.js`, injects a CC button into `media-controls`, loads an inline SRT track, and exposes the instance as:
+
+```js
+window.videojsSubtitleHtmlDemo
 ```
 
 ## Publishing
 
+This package is scoped to avoid npm name conflicts:
+
+```json
+{
+  "name": "@huuhieu17/videojs-subtitle",
+  "publishConfig": {
+    "access": "public"
+  }
+}
+```
+
 Before publishing:
 
-1. Update `version` in `package.json`.
-2. Run `npm run build`.
-3. Confirm `dist/` contains the JS, CSS, and type declarations.
-4. Run `npm publish`.
+```bash
+npm run build
+npm pack --dry-run
+npm publish --access public
+```
 
-`prepublishOnly` also runs the build automatically before publishing.
+If you publish for the first time, make sure you are logged in:
+
+```bash
+npm login
+npm whoami
+```
 
 ## License
 

@@ -1,6 +1,6 @@
 {
-  "name": "@huuhieu17/videojs-subtitle",
-  "version": "1.0.0-html",
+  "name": "videojs-subtitle",
+  "version": "1.0.1",
   "description": "Advanced custom subtitle renderer for @videojs/html, Video.js 8, and HTML video players",
   "type": "module",
   "license": "MIT",

@@ -99,6 +99,7 @@ createHtmlSubtitle(container, {
   video: "video",
   controlBar: "media-controls",
   button: true,
+  buttonPlacement: "control-bar",
   style: {
     fontSize: 28
   }
@@ -109,9 +110,18 @@ createHtmlSubtitle(container, {
 - `video`: native `video` or `audio` element used for `timeupdate` and `currentTime`.
 - `controlBar`: element or selector where the CC button is inserted. For the CDN HTML skin, this is usually `media-controls`.
 - `button`: set to `false` if you want to use your own button.
+- `buttonPlacement`: where the CC button starts. Supported values are `"control-bar"`, `"top-left"`, `"top-right"`, `"bottom-left"`, and `"bottom-right"`. If `"control-bar"` is requested but no `controlBar` exists, it falls back to `"top-right"`.
+- `buttonPosition`: alias for the older fallback-only position option.
 - `style`: initial subtitle style.
 
 If no matching `controlBar` is found, the adapter creates a fallback CC control inside the subtitle container.
+
+Users can also move the CC button from the CC menu under `CC button`.
+
+```ts
+subtitles.setButtonPlacement("top-right");
+subtitles.setButtonPlacement("control-bar");
+```
 
 ### Vanilla HTML Video
 

@@ -129,7 +129,7 @@
 
     color: #fff;
 
-    z-index: 10000;
+    z-index: 10050;
 
     box-sizing: border-box;
 
@@ -293,10 +293,6 @@
 
     position: absolute;
 
-    right: 12px;
-
-    bottom: 12px;
-
     z-index: 10001;
 
     display: flex;
@@ -306,6 +302,38 @@
     gap: 8px;
 
     pointer-events: auto;
+
+}
+
+.vjs-subtitle-html-controls--top-left {
+
+    top: 12px;
+
+    left: 12px;
+
+}
+
+.vjs-subtitle-html-controls--top-right {
+
+    top: 12px;
+
+    right: 12px;
+
+}
+
+.vjs-subtitle-html-controls--bottom-left {
+
+    bottom: 12px;
+
+    left: 12px;
+
+}
+
+.vjs-subtitle-html-controls--bottom-right {
+
+    right: 12px;
+
+    bottom: 12px;
 
 }
 
@@ -321,6 +349,18 @@
 
 }
 
+.vjs-subtitle-html-control--inline .vjs-subtitle-html-button {
+
+    width: 2.25rem;
+
+    min-width: 2.25rem;
+
+    height: 2.25rem;
+
+    border-radius: 9999px;
+
+}
+
 .vjs-subtitle-html-button {
 
     min-width: 36px;
@@ -331,7 +371,9 @@
 
     border-radius: 4px;
 
-    background: rgba(43, 51, 63, 0.9);
+    background: transparent !important;
+
+    background-color: transparent !important;
 
     color: #fff;
 
@@ -348,7 +390,9 @@
 .vjs-subtitle-html-button:hover,
 .vjs-subtitle-html-button[aria-expanded="true"] {
 
-    background: rgba(255, 255, 255, 0.22);
+    background: transparent !important;
+
+    background-color: transparent !important;
 
 }
 
@@ -433,10 +477,85 @@
 
 }
 
+.vjs-subtitle-html-menu-item:disabled,
+.vjs-subtitle-html-menu-item.is-disabled {
+
+    cursor: not-allowed;
+
+    opacity: 0.45;
+
+}
+
+.vjs-subtitle-html-menu-select {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    padding: 8px 14px;
+
+    color: #fff;
+
+    font-size: 13px;
+
+}
+
+.vjs-subtitle-html-menu-select span {
+
+    color: rgba(255, 255, 255, 0.72);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+}
+
+.vjs-subtitle-html-menu-select select {
+
+    min-width: 112px;
+
+    border: 1px solid rgba(255, 255, 255, 0.22);
+
+    border-radius: 4px;
+
+    background: #222;
+
+    color: #fff;
+
+    font: inherit;
+
+    font-size: 12px;
+
+}
+
 .vjs-subtitle-html-menu-item:hover,
 .vjs-subtitle-html-menu-item.is-selected {
 
     background: rgba(255, 255, 255, 0.16);
+
+}
+
+.vjs-subtitle-html-controls--top-left .vjs-subtitle-html-menu,
+.vjs-subtitle-html-controls--top-right .vjs-subtitle-html-menu {
+
+    top: calc(100% + 8px);
+
+    bottom: auto;
+
+}
+
+.vjs-subtitle-html-controls--top-left .vjs-subtitle-html-menu,
+.vjs-subtitle-html-controls--bottom-left .vjs-subtitle-html-menu {
+
+    right: auto;
+
+    left: 0;
 
 }
 

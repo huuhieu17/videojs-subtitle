@@ -5,20 +5,37 @@ export interface HtmlSubtitleMenuOptions {
     plugin: HtmlSubtitlePlugin;
     container: HTMLElement;
     controlBar?: HTMLElement;
+    placement?: HtmlSubtitleButtonPlacement;
     getStyleEditor: () => SubtitleStyleEditor | undefined;
 }
+
+export type HtmlSubtitleButtonPosition =
+    | "top-left"
+    | "top-right"
+    | "bottom-left"
+    | "bottom-right";
+
+export type HtmlSubtitleButtonPlacement =
+    | "control-bar"
+    | HtmlSubtitleButtonPosition;
 
 export class HtmlSubtitleMenu {
     private readonly plugin: HtmlSubtitlePlugin;
     private readonly container: HTMLElement;
+    private readonly controlBar?: HTMLElement;
     private readonly root: HTMLDivElement;
     private readonly button: HTMLButtonElement;
     private readonly menu: HTMLDivElement;
     private readonly abortController = new AbortController();
+    private placement: HtmlSubtitleButtonPlacement;
 
     constructor(options: HtmlSubtitleMenuOptions) {
         this.plugin = options.plugin;
         this.container = options.container;
+        this.controlBar = options.controlBar;
+        this.placement =
+            options.placement ??
+            (options.controlBar ? "control-bar" : "top-right");
         this.root = document.createElement("div");
         this.button = document.createElement("button");
         this.menu = document.createElement("div");
@@ -35,24 +52,63 @@ export class HtmlSubtitleMenu {
         this.menu.hidden = true;
 
         this.root.append(this.button, this.menu);
-        (options.controlBar ?? this.ensureFallbackControls()).appendChild(this.root);
+        this.applyPlacement(this.placement);
 
         this.bind();
         this.update();
     }
 
-    private ensureFallbackControls(): HTMLElement {
+    private ensureFallbackControls(
+        position: HtmlSubtitleButtonPosition
+    ): HTMLElement {
         let controls = this.container.querySelector(
             ".vjs-subtitle-html-controls"
         ) as HTMLElement | null;
 
         if (!controls) {
             controls = document.createElement("div");
-            controls.className = "vjs-subtitle-html-controls";
             this.container.appendChild(controls);
         }
 
+        controls.className =
+            `vjs-subtitle-html-controls vjs-subtitle-html-controls--${position}`;
+
         return controls;
+    }
+
+    setPlacement(
+        placement: HtmlSubtitleButtonPlacement
+    ): void {
+        this.applyPlacement(placement);
+        this.update();
+    }
+
+    getPlacement(): HtmlSubtitleButtonPlacement {
+        return this.placement;
+    }
+
+    private applyPlacement(
+        placement: HtmlSubtitleButtonPlacement
+    ): void {
+        const nextPlacement =
+            placement === "control-bar" && !this.controlBar
+                ? "top-right"
+                : placement;
+
+        this.placement = nextPlacement;
+        this.root.classList.remove(
+            "vjs-subtitle-html-control--inline",
+            "vjs-subtitle-html-control--fallback"
+        );
+
+        if (nextPlacement === "control-bar") {
+            this.root.classList.add("vjs-subtitle-html-control--inline");
+            this.controlBar?.appendChild(this.root);
+            return;
+        }
+
+        this.root.classList.add("vjs-subtitle-html-control--fallback");
+        this.ensureFallbackControls(nextPlacement).appendChild(this.root);
     }
 
     private bind(): void {
@@ -109,6 +165,61 @@ export class HtmlSubtitleMenu {
         return divider;
     }
 
+    private createPositionControl(): HTMLElement {
+        const row = document.createElement("label");
+        const label = document.createElement("span");
+        const select = document.createElement("select");
+        const options: Array<{
+            label: string;
+            placement: HtmlSubtitleButtonPlacement;
+            disabled?: boolean;
+        }> = [
+            {
+                label: "Button: Control bar",
+                placement: "control-bar",
+                disabled: !this.controlBar
+            },
+            {
+                label: "Button: Top left",
+                placement: "top-left"
+            },
+            {
+                label: "Button: Top right",
+                placement: "top-right"
+            },
+            {
+                label: "Button: Bottom left",
+                placement: "bottom-left"
+            },
+            {
+                label: "Button: Bottom right",
+                placement: "bottom-right"
+            }
+        ];
+
+        row.className = "vjs-subtitle-html-menu-select";
+        label.textContent = "CC button";
+        select.setAttribute("aria-label", "CC button position");
+
+        for (const option of options) {
+            const item = document.createElement("option");
+
+            item.value = option.placement;
+            item.textContent = option.label.replace("Button: ", "");
+            item.disabled = option.disabled ?? false;
+            select.appendChild(item);
+        }
+
+        select.value = this.placement;
+        select.addEventListener("change", () => {
+            this.setPlacement(select.value as HtmlSubtitleButtonPlacement);
+        });
+
+        row.append(label, select);
+
+        return row;
+    }
+
     update(): void {
         const tracks = this.plugin.getTracks();
         const heading = document.createElement("div");
@@ -144,6 +255,8 @@ export class HtmlSubtitleMenu {
             this.createItem("Import URL...", () => void this.plugin.addFromUrlPrompt()),
             this.createDivider(),
             this.createItem("Customize...", () => this.plugin.openStyleEditor()),
+            this.createDivider(),
+            this.createPositionControl(),
             this.createDivider(),
             this.createItem(hideLabel, () => this.plugin.toggleSubtitleVisibility())
         );

@@ -4,7 +4,11 @@ import { SubtitleRenderer } from "../rerender/SubtitleRerender";
 import { SubtitleStyle, SubtitleTrack } from "../types";
 import { SubtitleStyleEditor } from "../components/style";
 import { SubtitlePlayerHost } from "../player/SubtitlePlayerHost";
-import { HtmlSubtitleMenu } from "./HtmlSubtitleMenu";
+import {
+    HtmlSubtitleButtonPlacement,
+    HtmlSubtitleButtonPosition,
+    HtmlSubtitleMenu
+} from "./HtmlSubtitleMenu";
 
 export interface HtmlSubtitleOptions {
     style?: SubtitleStyle;
@@ -12,6 +16,8 @@ export interface HtmlSubtitleOptions {
     controlBar?: HTMLElement | string;
     video?: HTMLMediaElement | string;
     button?: boolean;
+    buttonPlacement?: HtmlSubtitleButtonPlacement;
+    buttonPosition?: HtmlSubtitleButtonPosition;
 }
 
 export type HtmlSubtitleTarget = HTMLMediaElement | HTMLElement | {
@@ -32,12 +38,14 @@ export class HtmlSubtitlePlugin {
     private readonly loader = new SubtitleLoader();
     private readonly renderer: SubtitleRenderer;
     private readonly abortController = new AbortController();
+    private readonly buttonPlacement?: HtmlSubtitleButtonPlacement;
     private menu?: HtmlSubtitleMenu;
     private hiddenTrackIds: string[] = [];
     private styleEditor?: SubtitleStyleEditor;
 
     constructor(target: HtmlSubtitleTarget, options?: HtmlSubtitleOptions) {
         this.target = target;
+        this.buttonPlacement = options?.buttonPlacement ?? options?.buttonPosition;
         this.media = this.resolveMedia(target, options?.video);
         this.container = this.resolveContainer(target, options?.container);
         this.host = {
@@ -156,7 +164,7 @@ export class HtmlSubtitlePlugin {
         }
 
         return this.container.querySelector(
-            ".vjs-control-bar, .vjs-controls, .video-js-control-bar, .videojs-control-bar, [data-vjs-control-bar], [data-control-bar], [part='control-bar']"
+            "media-controls, .media-controls, .vjs-control-bar, .vjs-controls, .video-js-control-bar, .videojs-control-bar, [data-vjs-control-bar], [data-control-bar], [part='control-bar']"
         ) as HTMLElement | null ?? undefined;
     }
 
@@ -169,6 +177,7 @@ export class HtmlSubtitlePlugin {
             plugin: this,
             container: this.container,
             controlBar: this.resolveControlBar(controlBar),
+            placement: this.buttonPlacement,
             getStyleEditor: () => this.styleEditor
         });
     }
@@ -375,6 +384,18 @@ export class HtmlSubtitlePlugin {
 
     hasTrack(id: string): boolean {
         return this.manager.hasTrack(id);
+    }
+
+    setButtonPlacement(
+        placement: HtmlSubtitleButtonPlacement
+    ): this {
+        this.menu?.setPlacement(placement);
+
+        return this;
+    }
+
+    getButtonPlacement(): HtmlSubtitleButtonPlacement | undefined {
+        return this.menu?.getPlacement();
     }
 
     destroy(): void {

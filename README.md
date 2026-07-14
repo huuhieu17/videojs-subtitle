@@ -1,4 +1,4 @@
-# @huuhieu17/videojs-subtitle
+# videojs-subtitle
 
 Advanced custom subtitle renderer for `@videojs/html`, Video.js 8, and HTML media players.
 
@@ -8,10 +8,10 @@ This package focuses on custom subtitle rendering instead of native browser text
 
 | Player target | Import path | Status |
 | --- | --- | --- |
-| `@videojs/html` / Video.js 10 beta | `@huuhieu17/videojs-subtitle/html` | Supported |
-| Video.js 8 classic | `@huuhieu17/videojs-subtitle` | Supported |
-| Vanilla HTML `<video>` | `@huuhieu17/videojs-subtitle/html` | Supported through the HTML adapter |
-| React / Vue wrappers | `@huuhieu17/videojs-subtitle/html` | Planned docs and helpers |
+| `@videojs/html` / Video.js 10 beta | `videojs-subtitle/html` | Supported |
+| Video.js 8 classic | `videojs-subtitle` | Supported |
+| Vanilla HTML `<video>` | `videojs-subtitle/html` | Supported through the HTML adapter |
+| React / Vue wrappers | `videojs-subtitle/html` | Planned docs and helpers |
 
 ## Features
 
@@ -26,17 +26,17 @@ This package focuses on custom subtitle rendering instead of native browser text
 ## Install
 
 ```bash
-npm install @huuhieu17/videojs-subtitle
+npm install videojs-subtitle
 ```
 
 ```bash
-yarn add @huuhieu17/videojs-subtitle
+yarn add videojs-subtitle
 ```
 
 Import the stylesheet once:
 
 ```ts
-import "@huuhieu17/videojs-subtitle/style.css";
+import "videojs-subtitle/style.css";
 ```
 
 ## Quick Start: `@videojs/html` / Video.js 10 Beta
@@ -44,8 +44,8 @@ import "@huuhieu17/videojs-subtitle/style.css";
 Use the HTML adapter. Video.js 10 beta does not use the classic Video.js 8 `registerPlugin` / `registerComponent` API.
 
 ```ts
-import { createHtmlSubtitle } from "@huuhieu17/videojs-subtitle/html";
-import "@huuhieu17/videojs-subtitle/style.css";
+import { createHtmlSubtitle } from "videojs-subtitle/html";
+import "videojs-subtitle/style.css";
 
 const container = document.querySelector("media-container") as HTMLElement;
 const video = container.querySelector("video") as HTMLVideoElement;
@@ -134,8 +134,8 @@ The same HTML adapter can be used without `@videojs/html`:
 ```
 
 ```ts
-import { createHtmlSubtitle } from "@huuhieu17/videojs-subtitle/html";
-import "@huuhieu17/videojs-subtitle/style.css";
+import { createHtmlSubtitle } from "videojs-subtitle/html";
+import "videojs-subtitle/style.css";
 
 const shell = document.querySelector(".player-shell") as HTMLElement;
 const video = document.querySelector("#movie") as HTMLVideoElement;
@@ -162,8 +162,8 @@ Use the root package import for Video.js 8.
 import videojs from "video.js";
 import "video.js/dist/video-js.css";
 
-import "@huuhieu17/videojs-subtitle";
-import "@huuhieu17/videojs-subtitle/style.css";
+import "videojs-subtitle";
+import "videojs-subtitle/style.css";
 
 const player = videojs("player");
 
@@ -326,11 +326,11 @@ window.videojsSubtitleHtmlDemo
 
 ## Publishing
 
-This package is scoped to avoid npm name conflicts:
+Package metadata:
 
 ```json
 {
-  "name": "@huuhieu17/videojs-subtitle",
+  "name": "videojs-subtitle",
   "publishConfig": {
     "access": "public"
   }

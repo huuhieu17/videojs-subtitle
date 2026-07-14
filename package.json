@@ -1,6 +1,6 @@
 {
   "name": "videojs-subtitle",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Advanced custom subtitle renderer for @videojs/html, Video.js 8, and HTML video players",
   "type": "module",
   "license": "MIT",
@@ -16,7 +16,7 @@
   ],
   "authors": [
     {
-      "name": "Hieu Nguyen",
+      "name": "Nguyen (Steve) Huu Hieu",
       "email": "huuhieu17@gmail.com"
     }
   ],
